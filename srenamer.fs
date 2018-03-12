@@ -31,8 +31,11 @@ let renameFile (path:string) =
 let rec renameFiles (paths:string list) =
     match paths with
     | x::xs -> match x with
-                | a when Regex.Match(a,@".+\.[jpg|JPG]").Success ->
-                    renameFile x
+                | a when Regex.Match(a,@".+\.(jpg|JPG)$").Success ->
+                    renameFileByTag x
+                    renameFiles xs
+                | a when Regex.Match(a,@".+\.(mp4|MP4)$").Success ->
+                    renameFileByName x
                     renameFiles xs
                 | a when Regex.Match(a,@".+\.[mp4|MP4]").Success ->
                     printfn "this is an mp4"
