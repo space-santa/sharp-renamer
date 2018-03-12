@@ -23,10 +23,33 @@ let getOriginalDateTime (path:string) =
     let propItems = img.PropertyItems
     getOrigDateTimeProp (propItems |> Array.toList)
 
-let renameFile (path:string) =
-    let newName = (getOriginalDateTime path |> changeTimeStampString) + Path.GetExtension(path)
-    printfn "%s -> %s" <| path <| newName
-    File.Move(path, newName)
+let renameFileByTag (path:string) =
+    try
+        let odt = getOriginalDateTime path
+        if System.String.IsNullOrEmpty(odt) then
+            printfn "Can't rename %s, no EXIF original date time found" <| path
+        else
+            let newName = (getOriginalDateTime path |> changeTimeStampString) + Path.GetExtension(path)
+            let oldName = Path.GetFileName(path)
+            if oldName = newName then
+                printfn "%s is already renamed" <| oldName
+            else
+                File.Move(path, newName)
+    with
+    | :? System.Exception -> printfn "%s is not a jpg" <| path
+
+let renameFileByName(path:string) =
+    let oldName = Path.GetFileName(path)
+    let ext = Path.GetExtension(path)
+    let regex = Regex @"\d{8}_\d{6}"
+    let result = regex.Match(oldName)
+    let dts = result.Value
+
+    if System.String.IsNullOrEmpty(dts) then
+        printfn "%s is not a valid filename" <| oldName
+    else
+        let newStr = dts.[0..3] + "-" + dts.[4..5] + "-" + dts.[6..7] + "_" + dts.[9..10] + "." + dts.[11..12] + "." + dts.[13..14] + ext
+        File.Move(path, newStr)
 
 let rec renameFiles (paths:string list) =
     match paths with
@@ -37,13 +60,12 @@ let rec renameFiles (paths:string list) =
                 | a when Regex.Match(a,@".+\.(mp4|MP4)$").Success ->
                     renameFileByName x
                     renameFiles xs
-                | a when Regex.Match(a,@".+\.[mp4|MP4]").Success ->
-                    printfn "this is an mp4"
+                | _ ->
+                    printfn "Can't rename %s" <| x
                     renameFiles xs
-                | _ -> renameFiles xs
     | [] -> ignore
 
 [<EntryPoint>]
 let main args=
-    renameFiles (args |> Array.toList)
+    Array.toList args |> renameFiles
     0
