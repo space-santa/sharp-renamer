@@ -1,6 +1,6 @@
 .PHONY : run
 run:
-	mono srenamer.exe
+	mono srenamer.exe $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY : br
 br : build run
