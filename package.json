@@ -1,0 +1,30 @@
+{
+  "name": "sharp-renamer",
+  "version": "1.0.0",
+  "description": "Run this with any number of strings as arguments and it will print them inside a frame. The width of the terminal is considered, strings longer than the with of the terminal are just split at maximum length.",
+  "main": "srenamer.exe",
+  "scripts": {
+    "test": "npm run build && npm run setMonoPath  && npm run build-test && mono packages/NUnit.ConsoleRunner/tools/nunit3-console.exe sign.test.exe --noresult",
+    "setMonoPath": "export MONO_PATH=packages/NUnit/lib/net45:packages/FsUnit/lib/net46",
+    "build-test": "fsharpc --nologo -o srenamer.test.exe srenamer.test.fs -r packages/NUnit/lib/net45/nunit.framework.dll -r packages/FsUnit/lib/net46/FsUnit.NUnit.dll -r srenamer.exe",
+    "br": "npm run build && npm run run",
+    "run": "mono srenamer.exe",
+    "build": "fsharpc --nologo -o srenamer.exe --target:exe srenamer.fs",
+    "bundle_mac": "mkbundle -o srenamer_mac --simple srenamer.exe --cross mono-5.10.0-osx-10.7-x64",
+    "bundle_pi": "mkbundle -o srenamer_pi --simple srenamer.exe --cross mono-5.10.0-raspbian-9-arm",
+    "bundle_x64": "mkbundle -o srenamer_x64 --simple srenamer.exe --cross mono-5.10.0-ubuntu-12.04-x64",
+    "bundle_local": "mkbundle -o srenamer --simple srenamer.exe",
+    "bundle_all": "npm run bundle_mac && npm run bundle_pi && npm run bundle_x64 && npm run bundle_local",
+    "clean": "rm srenamer srenamer_mac srenamer_pi srenamer_x64 srenamer.exe FSharp.Core.dll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/space-santa/sharp-renamer.git"
+  },
+  "author": "Claus Zirkel",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/space-santa/sharp-renamer/issues"
+  },
+  "homepage": "https://github.com/space-santa/sharp-renamer#readme"
+}
