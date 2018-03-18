@@ -1,0 +1,7 @@
+*.exe
+sign
+sign_*
+*.dll
+packages
+.vscode
+paket-files
