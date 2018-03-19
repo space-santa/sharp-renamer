@@ -4,7 +4,7 @@
   "description": "Run this with any number of strings as arguments and it will print them inside a frame. The width of the terminal is considered, strings longer than the with of the terminal are just split at maximum length.",
   "main": "srenamer.exe",
   "scripts": {
-    "test": "npm run build && npm run setMonoPath  && npm run build-test && mono packages/NUnit.ConsoleRunner/tools/nunit3-console.exe sign.test.exe --noresult",
+    "test": "npm run build && npm run setMonoPath  && npm run build-test && mono packages/NUnit.ConsoleRunner/tools/nunit3-console.exe srenamer.test.exe --noresult",
     "setMonoPath": "export MONO_PATH=packages/NUnit/lib/net45:packages/FsUnit/lib/net46",
     "build-test": "fsharpc --nologo -o srenamer.test.exe srenamer.test.fs -r packages/NUnit/lib/net45/nunit.framework.dll -r packages/FsUnit/lib/net46/FsUnit.NUnit.dll -r srenamer.exe",
     "br": "npm run build && npm run run",
