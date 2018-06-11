@@ -57,6 +57,8 @@
     <Compile Include="TimeStampStringTest.fs" />
     <Compile Include="ExifReader.fs" />
     <Compile Include="Program.fs" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
 </Project>
