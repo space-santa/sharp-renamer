@@ -5,3 +5,6 @@ sign_*
 packages
 .vscode
 paket-files
+.vs
+obj
+bin
