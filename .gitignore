@@ -8,3 +8,5 @@ paket-files
 .vs
 obj
 bin
+*.user
+
